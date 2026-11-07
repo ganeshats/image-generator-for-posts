@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Insta Text Studio — Minimal Carousel Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{font-family:"DM Sans",sans-serif;color:#24231f;background:#f5f4f1}*{box-sizing:border-box}body{margin:0}.app{max-width:1240px;margin:auto;padding:26px 20px 50px}
+header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.mark{width:38px;height:38px;border:1px solid #d8d4cc;border-radius:12px;display:grid;place-items:center;font-family:"Playfair Display";font-size:22px;background:#fff}h1{font-size:21px;letter-spacing:-.7px;margin:0}header p{font-size:12px;color:#77736c;margin:3px 0 0}.layout{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
+.panel,.stage{background:#fff;border:1px solid #e7e4de;border-radius:16px;padding:19px}.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:#827d73;font-weight:700;margin:0 0 13px}.field{margin-bottom:13px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#514e48}input,textarea,select{width:100%;font:inherit;font-size:13px;border:1px solid #e2dfd8;border-radius:9px;padding:10px;background:#fff;color:#292722}textarea{min-height:135px;line-height:1.5;resize:vertical}.small{min-height:65px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.palette{display:flex;gap:9px;flex-wrap:wrap}.swatch{width:28px;height:28px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #ccc9c1;cursor:pointer}.swatch[aria-pressed=true]{box-shadow:0 0 0 2px #282720}
+button{font:600 12px "DM Sans";border:1px solid #24231f;background:#24231f;color:white;border-radius:9px;padding:10px 13px;cursor:pointer}button.secondary{background:white;color:#302e29;border-color:#dedbd4}button:disabled{opacity:.4;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.hint{font-size:11px;color:#89847a;line-height:1.5;margin:12px 0 0}.stage-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}.stage-top strong{font-size:13px}.counter{font-size:12px;color:#817c72}.preview-wrap{background:#f2f1ee;border-radius:12px;padding:18px;display:flex;justify-content:center;align-items:center;min-height:420px}canvas{width:min(100%,510px);height:auto;box-shadow:0 6px 24px #28251d17}.nav{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px}.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:#d4d0c8}.dot.active{background:#292720}.slide-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.slide-chip{background:#f6f5f2;border:1px solid #e7e4de;color:#5b574f;padding:7px 9px}.slide-chip.active{background:#292720;color:#fff;border-color:#292720}.meta{font-size:11px;color:#827d73;margin-top:10px;display:flex;justify-content:space-between;gap:10px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.app{padding:18px 12px 35px}.preview-wrap{min-height:260px}}
+</style></head>
+<body><main class="app">
+<header><div class="brand"><div class="mark">i.</div><div><h1>Insta Text Studio</h1><p>Minimal graphics, thoughtful words.</p></div></div><button class="secondary" id="reset">Reset</button></header>
+<div class="layout">
+<section class="panel">
+<p class="section-title">01 · Your content</p>
+<div class="field"><label for="title">CAROUSEL TITLE</label><input id="title" value="A slower way to grow"></div>
+<div class="field"><label for="body">YOUR TEXT</label><textarea id="body">You don't need to change everything overnight.
+
+Start with one small promise to yourself, and keep it.
+
+Make space for rest. Progress is not always loud or visible.
+
+Notice what is working. Let go of what isn't.
+
+Keep showing up, gently and consistently.</textarea></div>
+<div class="field"><label for="footer">FOOTER / HANDLE</label><input id="footer" value="@yourhandle"></div>
+<div class="actions"><button id="generate">Generate carousel</button><button class="secondary" id="addSlide">Add blank slide</button></div>
+<p class="hint">The text is split into readable slides using paragraph breaks and sentence boundaries. You can edit each generated slide after creation.</p>
+<hr style="border:0;border-top:1px solid #eeeae3;margin:19px 0">
+<p class="section-title">02 · Visual style</p>
+<div class="two">
+<div class="field"><label for="format">FORMAT</label><select id="format"><option value="portrait">Portrait · 4:5 (1080×1350)</option><option value="square">Square · 1:1 (1080×1080)</option><option value="story">Story · 9:16 (1080×1920)</option></select></div>
+<div class="field"><label for="font">TYPEFACE</label><select id="font"><option value="DM Sans">DM Sans</option><option value="Playfair Display">Playfair Display</option></select></div>
+</div>
+<div class="two">
+<div class="field"><label for="align">ALIGNMENT</label><select id="align"><option value="left">Left</option><option value="center">Center</option></select></div>
+<div class="field"><label for="density">TEXT SIZE</label><select id="density"><option value="comfortable">Comfortable</option><option value="large">Large</option></select></div>
+</div>
+<div class="field"><label>COLOR PALETTE</label><div class="palette" id="palette"></div></div>
+<div class="two">
+<div class="field"><label for="bg">BACKGROUND</label><input type="color" id="bg" value="#f5f2eb"></div>
+<div class="field"><label for="fg">TEXT</label><input type="color" id="fg" value="#292720"></div>
+</div>
+<div class="actions"><button id="download">Download this slide</button><button class="secondary" id="downloadAll">Download all slides</button></div>
+<p class="hint">Each carousel slide exports as an individual full-resolution PNG. Your content stays in this browser.</p>
+</section>
+<section class="stage">
+<div class="stage-top"><strong>Live preview</strong><span class="counter" id="counter">Slide 1 of 1</span></div>
+<div class="preview-wrap"><canvas id="canvas" width="1080" height="1350"></canvas></div>
+<div class="nav"><button class="secondary" id="prev" aria-label="Previous slide">←</button><div class="dots" id="dots"></div><button class="secondary" id="next" aria-label="Next slide">→</button></div>
+<div class="slide-list" id="slideList"></div>
+<div class="meta"><span id="dimensions">1080 × 1350 px</span><span id="status" aria-live="polite">Ready to create.</span></div>
+<div style="margin-top:19px;border-top:1px solid #eeeae3;padding-top:17px">
+<p class="section-title">03 · Edit selected slide</p>
+<div class="field"><label for="slideHeading">SLIDE HEADING</label><textarea class="small" id="slideHeading"></textarea></div>
+<div class="field"><label for="slideText">SLIDE BODY</label><textarea id="slideText"></textarea></div>
+<div class="hint">Select a slide above to edit its text. Changes update the preview and exported PNG.</div>
+</div>
+</section></div></main>
+<script>
+const $=id=>document.getElementById(id);
+const palettes=[["#f5f2eb","#292720"],["#ffffff","#24231f"],["#e9ede7","#29372e"],["#f1e6df","#49352d"],["#eeedf2","#343044"],["#242720","#f5f2eb"]];
+let slides=[],active=0,paletteIndex=0;
+palettes.forEach((p,i)=>{let b=document.createElement("button");b.className="swatch";b.type="button";b.style.background=p[0];b.title="Palette "+(i+1);b.setAttribute("aria-pressed",i===0);b.onclick=()=>{paletteIndex=i;$("bg").value=p[0];$("fg").value=p[1];document.querySelectorAll(".swatch").forEach((x,j)=>x.setAttribute("aria-pressed",j===i));render()};$("palette").append(b)});
+function dimensions(){return $("format").value==="square"?[1080,1080]:$("format").value==="story"?[1080,1920]:[1080,1350]}
+function splitContent(raw){
+ let paras=raw.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+ if(paras.length<2){paras=raw.split(/(?<=[.!?])\s+(?=[A-Z“"‘])/).map(x=>x.trim()).filter(Boolean)}
+ const chunks=[];let current="";
+ for(const p of paras){if((current+" "+p).trim().length>190&&current){chunks.push(current);current=p}else current=(current+" "+p).trim()}
+ if(current)chunks.push(current);
+ return chunks.length?chunks:[raw.trim()];
+}
+function makeSlides(){
+ const title=$("title").value.trim()||"A thought to share",body=$("body").value.trim();
+ const parts=splitContent(body);
+ slides=[{kind:"cover",heading:title,text:"Swipe to read →"}];
+ parts.forEach((t,i)=>slides.push({kind:"content",heading:`${String(i+1).padStart(2,"0")}`,text:t}));
+ slides.push({kind:"end",heading:"Save this for later.",text:"Share it with someone who needs the reminder."});
+ active=0;syncEditor();render();$("status").textContent=`Created ${slides.length} slides.`;
+}
+function syncEditor(){if(!slides.length)return;$("slideHeading").value=slides[active].heading;$("slideText").value=slides[active].text}
+function wrap(ctx,text,max){let lines=[];for(let para of text.split("\n")){let line="";for(let word of para.split(/\s+/)){let test=line?line+" "+word:word;if(ctx.measureText(test).width>max&&line){lines.push(line);line=word}else line=test}lines.push(line)}return lines}
+function drawText(ctx,text,x,y,max,font,size,color,align,lineHeight){ctx.font=`${font==="Playfair Display"?"600":"500"} ${size}px "${font}",serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline="top";let lines=wrap(ctx,text,max);lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));return lines.length*lineHeight}
+function render(){
+ if(!slides.length)makeSlides();const [W,H]=dimensions(),c=$("canvas"),ctx=c.getContext("2d");c.width=W;c.height=H;
+ const bg=$("bg").value,fg=$("fg").value,font=$("font").value,align=$("align").value,dense=$("density").value==="large";
+ ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+ const pad=W*.105,contentW=W-pad*2,x=align==="left"?pad:W/2,ta=align==="left"?"left":"center";
+ ctx.fillStyle=fg;ctx.globalAlpha=.55;ctx.fillRect(pad,H*.085,48,5);ctx.globalAlpha=1;
+ const s=slides[active],isCover=s.kind==="cover",isEnd=s.kind==="end";
+ if(isCover){
+  let size=dense?100:88;let h=drawText(ctx,s.heading,x,H*.31,contentW,font,size,fg,ta,size*1.16);
+  ctx.font=`500 30px "DM Sans"`;ctx.fillStyle=fg;ctx.globalAlpha=.62;ctx.textAlign=ta;ctx.fillText(s.text,x,H*.31+h+34);ctx.globalAlpha=1;
+ }else{
+  const number=s.kind==="content"?s.heading:"";ctx.font='700 25px "DM Sans"';ctx.fillStyle=fg;ctx.globalAlpha=.48;ctx.textAlign=ta;ctx.fillText(number,x,H*.25);ctx.globalAlpha=1;
+  const size=dense?64:55;const h=drawText(ctx,s.text,x,H*.34,contentW,font,size,fg,ta,size*1.25);
+ }
+ ctx.font='600 23px "DM Sans"';ctx.fillStyle=fg;ctx.globalAlpha=.65;ctx.textAlign="left";ctx.fillText($("footer").value.trim(),pad,H*.92);ctx.textAlign="right";ctx.fillText(`${active+1} / ${slides.length}`,W-pad,H*.92);ctx.globalAlpha=1;
+ $("counter").textContent=`Slide ${active+1} of ${slides.length}`;$("dimensions").textContent=`${W} × ${H} px`;
+ $("prev").disabled=active===0;$("next").disabled=active===slides.length-1;
+ $("dots").innerHTML="";$("slideList").innerHTML="";
+ slides.forEach((s,i)=>{let d=document.createElement("button");d.className="dot"+(i===active?" active":"");d.title="Go to slide "+(i+1);d.onclick=()=>select(i);$("dots").append(d);
+ let chip=document.createElement("button");chip.className="slide-chip"+(i===active?" active":"");chip.textContent=(i+1)+" · "+(s.kind==="cover"?"Cover":s.kind==="end"?"Closing":"Slide");chip.onclick=()=>select(i);$("slideList").append(chip)});
+}
+function select(i){active=Math.max(0,Math.min(slides.length-1,i));syncEditor();render()}
+function saveSlide(i){const old=active;active=i;render();const a=document.createElement("a");a.download=`instagram-carousel-${String(i+1).padStart(2,"0")}.png`;a.href=$("canvas").toDataURL("image/png");a.click();active=old;render()}
+$("generate").onclick=makeSlides;
+$("addSlide").onclick=()=>{slides.splice(active+1,0,{kind:"content",heading:"",text:"Your next thought goes here."});select(active+1)};
+$("prev").onclick=()=>select(active-1);$("next").onclick=()=>select(active+1);
+$("slideHeading").oninput=()=>{if(slides[active]){slides[active].heading=$("slideHeading").value;render()}};
+$("slideText").oninput=()=>{if(slides[active]){slides[active].text=$("slideText").value;render()}};
+["format","font","align","density","bg","fg","footer"].forEach(id=>$(id).addEventListener("input",render));
+$("download").onclick=()=>saveSlide(active);
+$("downloadAll").onclick=()=>{slides.forEach((_,i)=>setTimeout(()=>saveSlide(i),i*450));$("status").textContent="Starting individual slide downloads. Your browser may ask you to allow multiple downloads."};
+$("reset").onclick=()=>{ $("title").value="A slower way to grow";$("body").value="You don't need to change everything overnight.\n\nStart with one small promise to yourself, and keep it.\n\nMake space for rest. Progress is not always loud or visible.\n\nNotice what is working. Let go of what isn't.\n\nKeep showing up, gently and consistently.";$("footer").value="@yourhandle";$("format").value="portrait";$("font").value="DM Sans";$("align").value="left";$("density").value="comfortable";$("bg").value=palettes[0][0];$("fg").value=palettes[0][1];paletteIndex=0;document.querySelectorAll(".swatch").forEach((x,j)=>x.setAttribute("aria-pressed",j===0));makeSlides()};
+makeSlides();document.fonts.ready.then(render);
+</script></body></html>
